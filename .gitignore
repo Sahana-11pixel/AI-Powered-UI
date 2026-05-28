@@ -1,0 +1,13 @@
+.env
+target/
+*.class
+*.jar
+.venv/
+__pycache__/
+.idea/
+.vscode/
+*.iml
+*.log
+.DS_Store
+Thumbs.db
+firebase-service-account.json
