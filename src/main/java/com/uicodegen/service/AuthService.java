@@ -236,6 +236,8 @@ public class AuthService {
     private LoginResponse buildLoginResponse(String token, User user) {
         return LoginResponse.builder()
                 .token(token)
+                .access_token(token)
+                .token_type("bearer")
                 .user(toUserResponse(user))
                 .build();
     }

@@ -18,8 +18,12 @@ public class CorsConfig {
     @Bean
     public org.springframework.web.cors.CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOriginPatterns(List.of("*"));
-        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
+        config.setAllowedOrigins(List.of(
+            "http://localhost:3000",
+            "http://localhost:5173",
+            "https://ai-powered-uicodegen.vercel.app"
+        ));
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH", "HEAD"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
 
