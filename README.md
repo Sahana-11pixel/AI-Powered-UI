@@ -1,7 +1,7 @@
 # UI Code Generator — Java Spring Boot Backend
 
 > **Note:** This repository contains the **Backend** code for the UI Code Generator project. 
-> For the **Frontend** React application, please visit: [Insert Frontend Repository Link Here]
+> For the **Frontend** React application, please visit: https://github.com/Sahana-11pixel/AI-Powered-UI-Frontend-.git
 
 A complete Java/Spring Boot reimplementation of the [ui5_full Python/FastAPI backend](../ui5_full/backend/), built for robust and scalable enterprise applications. This backend serves a full-stack web application that lets users write, run, and get AI feedback on frontend code directly in the browser.
 
@@ -148,10 +148,3 @@ GitHub Actions workflow is located at `.github/workflows/ci-cd.yml`:
 
 ---
 
-## 🧠 Key Design Decisions
-
-- **Sync MongoDB** (not reactive) — easier to understand and explain in interviews.
-- **OkHttp for Gemini** — lightweight REST calls instead of the heavy Google SDK.
-- **API Contracts Match Frontend** — The React frontend works with zero changes by simply swapping the backend URL to this Java API.
-- **Consistent Error Responses** — `{"detail": "..."}` format matches the Python `HTTPException`.
-- **JWT Structure** — `user_id`, `email`, `role` claims are consistent across microservices.
