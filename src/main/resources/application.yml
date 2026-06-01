@@ -23,7 +23,7 @@ jwt:
 gemini:
   api-key: ${GEMINI_API_KEY}
   base-url: https://generativelanguage.googleapis.com/v1beta/models
-  model: gemini-3.5-flash
+  model: gemini-2.5-flash-lite
 
 # Firebase (path to service account JSON file)
 firebase:

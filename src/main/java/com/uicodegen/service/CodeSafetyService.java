@@ -66,6 +66,49 @@ public class CodeSafetyService {
     }
 
     /**
+     * Mirrors Python parse_generated_output().
+     * Strips markdown fences, tries JSON array parse, handles wrapped objects,
+     * and falls back to wrapping in a single-file array.
+     * Returns JSON string: [{"filename":"...","content":"..."}]
+     */
+    public String parseGeneratedOutput(String rawOutput, String framework) {
+        String cleaned = rawOutput != null ? rawOutput.strip() : "";
+
+        // Strip markdown fences — mirrors server.py lines 694-704
+        if (cleaned.contains("```")) {
+            cleaned = stripMarkdownFences(cleaned);
+        }
+
+        // Try to parse as JSON array — mirrors server.py lines 707-723
+        try {
+            Object parsed = objectMapper.readValue(cleaned, Object.class);
+            if (parsed instanceof List<?> list && !list.isEmpty()) {
+                boolean valid = ((List<?>) parsed).stream().allMatch(
+                    f -> f instanceof Map<?, ?> m && m.containsKey("filename") && m.containsKey("content")
+                );
+                if (valid) return objectMapper.writeValueAsString(parsed);
+            }
+            // Handle wrapped: {"intent":"MODIFY","code":[...]}
+            if (parsed instanceof Map<?, ?> map && map.containsKey("code")) {
+                Object codeField = map.get("code");
+                if (codeField instanceof List<?>) {
+                    return objectMapper.writeValueAsString(codeField);
+                } else if (codeField instanceof String codeStr) {
+                    return parseGeneratedOutput(codeStr, framework);
+                }
+            }
+        } catch (Exception ignored) {}
+
+        // Single file fallback — mirrors server.py lines 726-727
+        String filename = getDefaultFilename(framework);
+        try {
+            return objectMapper.writeValueAsString(List.of(Map.of("filename", filename, "content", cleaned)));
+        } catch (Exception e) {
+            return "[{\"filename\":\"" + filename + "\",\"content\":\"\"}]";
+        }
+    }
+
+    /**
      * Parse raw AI output into a files list.
      * Handles both JSON array output (multi-file) and raw code (single-file).
      */

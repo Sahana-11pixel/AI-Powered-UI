@@ -1,8 +1,25 @@
 # UI Code Generator — Java Spring Boot Backend
 
-A complete Java/Spring Boot reimplementation of the [ui5_full Python/FastAPI backend](../ui5_full/backend/), built for Java job applications.
+> **Note:** This repository contains the **Backend** code for the UI Code Generator project. 
+> For the **Frontend** React application, please visit: [Insert Frontend Repository Link Here]
 
-## Tech Stack
+A complete Java/Spring Boot reimplementation of the [ui5_full Python/FastAPI backend](../ui5_full/backend/), built for robust and scalable enterprise applications. This backend serves a full-stack web application that lets users write, run, and get AI feedback on frontend code directly in the browser.
+
+---
+
+## 🚀 Features (Supported by this Backend)
+
+- **AI Code Generation** — Processes UI screenshots and uses Google Gemini AI to generate frontend code.
+- **AI Assistant Chat** — Chat endpoints to communicate with Google Gemini AI for code help, explanations, and improvements.
+- **Project Management** — RESTful APIs to save, load, and manage user projects in MongoDB.
+- **User Authentication** — Secure authentication using Firebase Admin SDK and Spring Security with JWT.
+- **Image Processing & Storage** — Handles image uploads and stores them securely via Cloudinary Java SDK.
+- **Admin Dashboard** — Endpoints for administrators to manage users, roles, and monitor system statistics.
+- **API Documentation** — Auto-generated OpenAPI specs via SpringDoc (Swagger UI).
+
+---
+
+## 🧱 Tech Stack
 
 | Layer | Technology |
 |-------|-----------|
@@ -19,9 +36,11 @@ A complete Java/Spring Boot reimplementation of the [ui5_full Python/FastAPI bac
 | Container | Docker + docker-compose |
 | CI/CD | GitHub Actions |
 
-## Project Structure
+---
 
-```
+## 📁 Project Structure
+
+```text
 src/main/java/com/uicodegen/
 ├── config/          # Security, CORS, Firebase, Cloudinary setup
 ├── security/        # JWT util, auth filter, user principal
@@ -33,7 +52,9 @@ src/main/java/com/uicodegen/
 └── exception/       # Global exception handler
 ```
 
-## API Endpoints (identical to Python backend)
+---
+
+## 🔌 API Endpoints
 
 | Method | Path | Auth | Description |
 |--------|------|------|-------------|
@@ -61,7 +82,9 @@ src/main/java/com/uicodegen/
 | GET | `/api/admin/projects` | ADMIN | Paginated projects |
 | DELETE | `/api/admin/projects/{id}` | ADMIN | Delete project |
 
-## Setup
+---
+
+## ⚙️ Setup & Local Development
 
 ### 1. Prerequisites
 - Java 21+
@@ -71,17 +94,17 @@ src/main/java/com/uicodegen/
 - Gemini API key
 - Cloudinary account
 
-### 2. Configure environment
+### 2. Configure Environment
 
 ```bash
 cp .env.example .env
-# Fill in all values in .env
+# Fill in all required environment variables in .env
 ```
 
-### 3. Run locally
+### 3. Run Locally
 
 ```bash
-# Set env vars (Windows PowerShell)
+# Set env vars (Windows PowerShell example)
 $env:MONGO_URI="your_uri"
 $env:JWT_SECRET="your_secret"
 # ... etc
@@ -89,7 +112,7 @@ $env:JWT_SECRET="your_secret"
 mvn spring-boot:run
 ```
 
-Then open: http://localhost:8080/swagger-ui.html
+Then open the Swagger UI: `http://localhost:8080/swagger-ui.html`
 
 ### 4. Run with Docker
 
@@ -99,19 +122,21 @@ cp .env.example .env
 docker-compose up --build
 ```
 
-### 5. Run tests
+### 5. Run Tests
 
 ```bash
 mvn test
 ```
 
-## CI/CD Pipeline
+---
 
-GitHub Actions workflow at `.github/workflows/ci-cd.yml`:
+## 🚀 CI/CD Pipeline
 
-1. **Build & Test** — runs on every push/PR
-2. **Docker Build & Push** — pushes to Docker Hub on `main`
-3. **Deploy** — triggers Render deploy hook (optional)
+GitHub Actions workflow is located at `.github/workflows/ci-cd.yml`:
+
+1. **Build & Test** — runs on every push/PR.
+2. **Docker Build & Push** — pushes to Docker Hub on `main` branch.
+3. **Deploy** — triggers Render deploy hook (optional).
 
 ### Required GitHub Secrets
 
@@ -121,10 +146,12 @@ GitHub Actions workflow at `.github/workflows/ci-cd.yml`:
 | `DOCKERHUB_TOKEN` | Docker Hub access token |
 | `RENDER_DEPLOY_HOOK` | Render deploy webhook URL (optional) |
 
-## Key Design Decisions
+---
 
-- **Sync MongoDB** (not reactive) — easier to understand and explain in interviews
-- **OkHttp for Gemini** — lightweight REST calls instead of heavy Google SDK
-- **Same API contracts** — React frontend works with zero changes, just swap the backend URL
-- **Identical error responses** — `{"detail": "..."}` format matches Python `HTTPException`
-- **Same JWT structure** — `user_id`, `email`, `role` claims match the Python backend
+## 🧠 Key Design Decisions
+
+- **Sync MongoDB** (not reactive) — easier to understand and explain in interviews.
+- **OkHttp for Gemini** — lightweight REST calls instead of the heavy Google SDK.
+- **API Contracts Match Frontend** — The React frontend works with zero changes by simply swapping the backend URL to this Java API.
+- **Consistent Error Responses** — `{"detail": "..."}` format matches the Python `HTTPException`.
+- **JWT Structure** — `user_id`, `email`, `role` claims are consistent across microservices.

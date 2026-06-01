@@ -120,14 +120,20 @@ public class AuthService {
             User user;
             if (existingOpt.isPresent()) {
                 user = existingOpt.get();
+                // If user was soft-deleted but is now logging in via a valid Firebase token, resurrect them
                 if (user.isDeleted()) {
-                    throw new ResponseStatusException(HttpStatus.FORBIDDEN,
-                        "This account has been deactivated. Please contact support.");
+                    log.info("Resurrecting soft-deleted user via Firebase login: {}", email);
+                    user.setDeleted(false);
                 }
-                // Update last login
+                // Update last login & ensure they are active
                 Query q = Query.query(Criteria.where("email").is(email));
                 mongoTemplate.updateFirst(q,
-                    new Update().set("lastLogin", now).set("firebaseUid", firebaseUid), User.class);
+                    new Update()
+                        .set("lastLogin", now)
+                        .set("firebaseUid", firebaseUid)
+                        .set("isDeleted", false)
+                        .set("isActive", true), 
+                    User.class);
             } else {
                 // Create new user
                 String userId = UUID.randomUUID().toString();
