@@ -3,8 +3,8 @@
 > **Note:** This repository contains the **Backend** code for the UI Code Generator project. 
 > For the **Frontend** React application, please visit: https://github.com/Sahana-11pixel/AI-Powered-UI-Frontend-.git
 
-*This backend powers a full-stack web application that allows users to upload a screenshot and generate frontend code using their preferred framework. It also provides an AI assistant for chatting, explaining, and modifying the generated code.
-*---
+This backend powers a full-stack web application that allows users to upload a screenshot and generate frontend code using their preferred framework. It also provides an AI assistant for chatting, explaining, and modifying the generated code.
+---
 
 ## 🚀 Features (Supported by this Backend)
 
